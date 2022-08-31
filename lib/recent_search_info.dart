@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:intl/intl.dart';
 
 import 'package:twitter_api_1/api_model_recent_search.dart';
@@ -7,6 +8,8 @@ import 'package:twitter_api_1/api_model_recent_search.dart';
 import 'package:twitter_api_1/api_service_recent_search.dart';
 
 import 'package:url_launcher/link.dart';
+
+import 'save_folder.dart';
 
 class RecentSearchInfo extends StatefulWidget {
   RecentSearchInfo({Key? key, required this.searchInfo}) : super(key: key);
@@ -33,6 +36,8 @@ class _RecentSearchInfoState extends State<RecentSearchInfo> {
     print('dispose used');
     super.dispose();
   }
+
+  final myBox = Hive.box('transactions');
 
   @override
   Widget build(BuildContext context) {
@@ -74,15 +79,37 @@ class _RecentSearchInfoState extends State<RecentSearchInfo> {
                                       ),
                                       Text(
                                           'Tweet: ${snapshot.data![index].data![index1].text!}'),
-                                      //                   Link(
-                                      //   target: LinkTarget.blank,
-                                      //   uri: Uri.parse(
-                                      //       'https://twitter.com/${widget.userName}/status/${snapshot.data![0].data!.conversationId!}'),
-                                      //   builder: (context, followLink) => TextButton(
-                                      //     onPressed: followLink,
-                                      //     child: const Text('go to the tweet'),
-                                      //   ),
-                                      // ),
+                                      Link(
+                                        target: LinkTarget.blank,
+                                        uri: Uri.parse(
+                                            'https://twitter.com/${snapshot.data![index].includes!.users![index].username}/status/${snapshot.data![index].data![index1].conversationId!}'),
+                                        builder: (context, followLink) =>
+                                            TextButton(
+                                          onPressed: followLink,
+                                          child: const Text('go to the tweet'),
+                                        ),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          var data = snapshot
+                                              .data![index].data![index1].text!;
+
+                                          // var id = snapshot
+                                          //     .data![index].data![index1].id!;
+
+                                          // myBox.add(data);
+                                          Hive.box('transactions').add(data);
+
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SaveFolder(),
+                                            ),
+                                          );
+                                        },
+                                        child: const Text('save the tweet'),
+                                      ),
                                     ],
                                   ),
                                 ),

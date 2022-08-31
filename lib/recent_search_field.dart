@@ -14,25 +14,35 @@ class RecentSearchField extends StatelessWidget {
       appBar: AppBar(
         title: const Text('data'),
       ),
-      body: Column(
-        children: [
-          const Text('Write the term you want to search'),
-          TextField(
-            controller: _searchController,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              var search = _searchController.text;
+      body: Container(
+        padding: const EdgeInsets.all(25),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text('Write the term you want to search'),
+            TextField(
+              controller: _searchController,
+            ),
+            const SizedBox(
+              height: 9,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                var search = _searchController.text;
 
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => RecentSearchInfo(searchInfo: search),
-                ),
-              );
-            },
-            child: const Text('search'),
-          ),
-        ],
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => RecentSearchInfo(searchInfo: search),
+                  ),
+                );
+              },
+              child: const Text('search'),
+            ),
+          ],
+        ),
       ),
     );
   }

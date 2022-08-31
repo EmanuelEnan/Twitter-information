@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
         title: const Text('Twitter username'),
       ),
       body: Container(
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(25),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.height,
         child: Column(
@@ -23,6 +23,9 @@ class HomePage extends StatelessWidget {
           children: [
             TextField(
               controller: _controller,
+            ),
+            const SizedBox(
+              height: 9,
             ),
             ElevatedButton(
               onPressed: () {

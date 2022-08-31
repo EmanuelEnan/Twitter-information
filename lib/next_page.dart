@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:twitter_api_1/api_service.dart';
-import 'package:twitter_api_1/location_page.dart';
-import 'package:twitter_api_1/new_page.dart';
+
 import 'package:intl/intl.dart';
 import 'package:twitter_api_1/pinned_tweet_info.dart';
 
@@ -52,7 +51,8 @@ class _NextPageState extends State<NextPage> {
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasData) {
+                  } else if (snapshot.hasData &&
+                      snapshot.data![0].data!.username == widget.nameUser) {
                     var now = snapshot.data![0].data!.createdAt;
                     return SizedBox(
                       width: MediaQuery.of(context).size.width,
@@ -109,8 +109,11 @@ class _NextPageState extends State<NextPage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => PinnedTweetInfo(
-                                          pinnedTweetId: snapshot
-                                              .data![0].data!.pinnedTweetId!, userName: snapshot.data![0].data!.username!,),
+                                        pinnedTweetId: snapshot
+                                            .data![0].data!.pinnedTweetId!,
+                                        userName:
+                                            snapshot.data![0].data!.username!,
+                                      ),
                                     ));
                               }
                             },
@@ -122,6 +125,10 @@ class _NextPageState extends State<NextPage> {
                         ],
                       ),
                     );
+                  } else if (snapshot.hasData &&
+                      snapshot.data![0].data!.username != widget.nameUser) {
+                    return const Center(
+                        child: Text('Sorry, no user with this name...'));
                   }
 
                   return const Center(

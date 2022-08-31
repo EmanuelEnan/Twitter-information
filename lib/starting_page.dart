@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:twitter_api_1/recent_search_field.dart';
+import 'package:twitter_api_1/save_folder.dart';
 
 import 'home_page.dart';
-import 'recent_search_info.dart';
 
 class StartingPage extends StatelessWidget {
   const StartingPage({Key? key}) : super(key: key);
@@ -43,6 +44,20 @@ class StartingPage extends StatelessWidget {
                 );
               },
               child: const Text('Get search results'),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: ((context) => const SaveFolder()),
+                  ),
+                );
+              },
+              child: const Text('Saved Folder'),
             ),
           ],
         ),
